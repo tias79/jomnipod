@@ -25,48 +25,70 @@ package com.github.jomnipod.logrecord;
 
 public interface LogRecordVisitor {
 
-	public void visit(ActivateLogRecordDetails details);
+	default public void visit(ActivateLogRecordDetails details) {
+	};
 
-	public void visit(EndMarkerLogRecordDetails details);
+	default public void visit(EndMarkerLogRecordDetails details) {
+	};
 
-	public void visit(DeactivateLogRecordDetails details);
+	default public void visit(DeactivateLogRecordDetails details) {
+	};
 
-	public void visit(TimeChangeLogRecordDetails details);
+	default public void visit(TimeChangeLogRecordDetails details) {
+	};
 
-	public void visit(BolusLogRecordDetails details);
+	default public void visit(BolusLogRecordDetails details) {
+	};
 
-	public void visit(BasalLogRecordDetails details);
+	default public void visit(BasalLogRecordDetails details) {
+	};
 
-	public void visit(SuspendLogRecordDetails details);
+	default public void visit(SuspendLogRecordDetails details) {
+	};
 
-	public void visit(DateChangeLogRecordDetails details);
+	default public void visit(DateChangeLogRecordDetails details) {
+	};
 
-	public void visit(SuggestedCalcLogRecordDetails details);
+	default public void visit(SuggestedCalcLogRecordDetails details) {
+	};
 
-	public void visit(RemoteHazardAlarmLogRecordDetails details);
+	default public void visit(RemoteHazardAlarmLogRecordDetails details) {
+	};
 
-	public void visit(AlarmLogRecordDetails details);
+	default public void visit(AlarmLogRecordDetails details) {
+	};
 
-	public void visit(BloodGlucoseLogRecordDetails details);
+	default public void visit(BloodGlucoseLogRecordDetails details) {
+	};
 
-	public void visit(CarbLogRecordDetails details);
+	default public void visit(CarbLogRecordDetails details) {
+	};
 
-	public void visit(TerminateBolusLogRecordDetails details);
+	default public void visit(TerminateBolusLogRecordDetails details) {
+	};
 
-	public void visit(TerminateBasalLogRecordDetails details);
+	default public void visit(TerminateBasalLogRecordDetails details) {
+	};
 
-	public void visit(ResumeLogRecordDetails details);
+	default public void visit(ResumeLogRecordDetails details) {
+	};
 
-	public void visit(DownloadLogRecordDetails details);
+	default public void visit(DownloadLogRecordDetails details) {
+	};
 
-	public void visit(OcclusionLogRecordDetails details);
+	default public void visit(OcclusionLogRecordDetails details) {
+	};
 
-	public void visit(UnknownLogRecordDetails details);
+	default public void visit(UnknownLogRecordDetails details) {
+	};
 
-	public void visit(PumpAlarmDetails details);
+	default public void visit(PumpAlarmDetails details) {
+	};
 
-	public void visit(DeletedLogRecordDetails details);
+	default public void visit(DeletedLogRecordDetails details) {
+	};
 
-	public void visit(IgnoreLogRecordDetails details);
+	default public void visit(IgnoreLogRecordDetails details) {
+	};
 
 }

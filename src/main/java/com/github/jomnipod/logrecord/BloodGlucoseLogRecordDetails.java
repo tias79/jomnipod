@@ -24,24 +24,24 @@
 package com.github.jomnipod.logrecord;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.github.jomnipod.BloodGlucoseUnits;
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 
 import lombok.ToString;
 
 @ToString
-public class BloodGlucoseLogRecordDetails implements LogRecordDetails {
+public class BloodGlucoseLogRecordDetails extends HistoryLogRecord {
 
-	public enum Flag {
+	public enum BGFlag {
 		MANUAL_FLAG(0x01), TEMPERATURE_FLAG(0x02), BELOW_TARGET_FLAG(0x04), ABOVE_TARGET_FLAG(
 				0x08), RANGE_ERROR_LOW_FLAG(0x10), RANGE_ERROR_HIGH_FLAG(0x20), OTHER_ERROR_FLAG(0x40);
 
 		private long id;
 
-		private Flag(long id) {
+		private BGFlag(long id) {
 			this.id = id;
 		}
 
@@ -49,10 +49,10 @@ public class BloodGlucoseLogRecordDetails implements LogRecordDetails {
 			return id;
 		}
 
-		public static EnumSet<Flag> valueOf(long flags) {
-			EnumSet<Flag> result = EnumSet.noneOf(Flag.class);
+		public static EnumSet<BGFlag> valueOf(long flags) {
+			EnumSet<BGFlag> result = EnumSet.noneOf(BGFlag.class);
 
-			for (Flag flag : values()) {
+			for (BGFlag flag : values()) {
 				if ((flag.id & flags) == flags) {
 					result.add(flag);
 				}
@@ -63,21 +63,23 @@ public class BloodGlucoseLogRecordDetails implements LogRecordDetails {
 	}
 
 	private BloodGlucoseUnits bgReading;
-	private Set<Flag> flags;
+	private Set<BGFlag> bgFlags;
 
-	public BloodGlucoseLogRecordDetails(Iterator iterator) {
+	public BloodGlucoseLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		long errorCode = iterator.nextUnsignedLEInteger();
 		bgReading = new BloodGlucoseUnits(iterator.nextUnsignedLEShort());
 		String userTag1 = iterator.nextString(24);
 		String userTag2 = iterator.nextString(24);
-		flags = Flag.valueOf(iterator.nextByte());
+		bgFlags = BGFlag.valueOf(iterator.nextByte());
 	}
 
 	public BloodGlucoseUnits units() {
 		return bgReading;
 	}
 
-	public Set<Flag> flags() {
-		return new HashSet<>(flags);
+	public EnumSet<BGFlag> bgFlags() {
+		return EnumSet.copyOf(bgFlags);
 	}
 }

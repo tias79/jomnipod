@@ -24,19 +24,23 @@
 package com.github.jomnipod.logrecord;
 
 import java.time.LocalDate;
+import java.util.EnumSet;
 
 import com.github.jomnipod.Date;
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFDate;
 import com.github.jomnipod.IBFRecord.Iterator;
 
 import lombok.ToString;
 
 @ToString
-public class DateChangeLogRecordDetails implements LogRecordDetails {
+public class DateChangeLogRecordDetails extends HistoryLogRecord {
 
 	private Date datestamp;
 
-	public DateChangeLogRecordDetails(Iterator iterator) {
+	public DateChangeLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		datestamp = new IBFDate(iterator);
 	}
 

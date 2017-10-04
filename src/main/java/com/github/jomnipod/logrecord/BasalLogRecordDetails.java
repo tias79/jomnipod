@@ -23,18 +23,23 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 import com.github.jomnipod.InsulinUnits;
 
 import lombok.ToString;
 
 @ToString
-public class BasalLogRecordDetails implements LogRecordDetails {
+public class BasalLogRecordDetails extends HistoryLogRecord {
 
 	private InsulinUnits basalRatePerHour;
 	private Double percent;
 
-	public BasalLogRecordDetails(Iterator iterator) {
+	public BasalLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		basalRatePerHour = new InsulinUnits(iterator.nextUnsignedLEInteger());
 		Integer durationInMinutes = iterator.nextUnsignedLEShort();
 		percent = Double.valueOf(iterator.nextSignedLEShort()) / 100;

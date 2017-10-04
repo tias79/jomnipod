@@ -23,14 +23,17 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
 import com.github.jomnipod.BloodGlucoseUnits;
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 import com.github.jomnipod.InsulinUnits;
 
 import lombok.ToString;
 
 @ToString
-public class SuggestedCalcLogRecordDetails implements LogRecordDetails {
+public class SuggestedCalcLogRecordDetails extends HistoryLogRecord {
 
 	private InsulinUnits correctionDelivered;
 	private InsulinUnits carbBolusDelivered;
@@ -41,7 +44,9 @@ public class SuggestedCalcLogRecordDetails implements LogRecordDetails {
 	private BloodGlucoseUnits currentBg;
 	private BloodGlucoseUnits targetBg;
 
-	public SuggestedCalcLogRecordDetails(Iterator iterator) {
+	public SuggestedCalcLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		correctionDelivered = new InsulinUnits(iterator.nextUnsignedLEInteger());
 		carbBolusDelivered = new InsulinUnits(iterator.nextUnsignedLEInteger());
 		correctionProgrammed = new InsulinUnits(iterator.nextUnsignedLEInteger());

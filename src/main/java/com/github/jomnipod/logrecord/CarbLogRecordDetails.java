@@ -23,16 +23,22 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
+import com.github.jomnipod.HistoryLogRecord;
+import com.github.jomnipod.HistoryLogRecord.Flag;
 import com.github.jomnipod.IBFRecord.Iterator;
 
 import lombok.ToString;
 
 @ToString
-public class CarbLogRecordDetails implements LogRecordDetails {
+public class CarbLogRecordDetails extends HistoryLogRecord {
 
 	private int carbs;
 
-	public CarbLogRecordDetails(Iterator iterator) {
+	public CarbLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		carbs = iterator.nextUnsignedLEShort();
 		int wasPreset = iterator.nextByte();
 		int presetType = iterator.nextByte();

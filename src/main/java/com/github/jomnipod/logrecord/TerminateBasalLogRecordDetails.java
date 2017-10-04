@@ -23,16 +23,21 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 
 import lombok.ToString;
 
 @ToString
-public class TerminateBasalLogRecordDetails implements LogRecordDetails {
+public class TerminateBasalLogRecordDetails extends HistoryLogRecord {
 
 	private int timeLeftMinutes;
 
-	public TerminateBasalLogRecordDetails(Iterator iterator) {
+	public TerminateBasalLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		timeLeftMinutes = iterator.nextUnsignedLEShort();
 	}
 

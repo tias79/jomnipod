@@ -23,17 +23,22 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 import com.github.jomnipod.InsulinUnits;
 
 import lombok.ToString;
 
 @ToString
-public class BolusLogRecordDetails implements LogRecordDetails {
+public class BolusLogRecordDetails extends HistoryLogRecord {
 
 	private InsulinUnits units;
 
-	public BolusLogRecordDetails(Iterator iterator) {
+	public BolusLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		units = new InsulinUnits(iterator.nextUnsignedLEInteger());
 		int extendedDurationMinutes = iterator.nextUnsignedLEShort();
 		int calculationRecordOffset = iterator.nextUnsignedLEShort();

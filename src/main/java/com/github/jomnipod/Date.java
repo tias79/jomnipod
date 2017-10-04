@@ -63,6 +63,10 @@ public class Date implements Comparable<Date> {
 	}
 
 	public LocalDate toLocalDate() {
+		if (year.equals(0) && month.equals(0) && day.equals(0)) {
+			return LocalDate.of(0, 1, 1);
+		}
+
 		return LocalDate.of(year, month, day);
 	}
 }

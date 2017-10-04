@@ -24,6 +24,7 @@
 package com.github.jomnipod.logrecord;
 
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.function.Consumer;
 
 import com.github.jomnipod.DateTime;
@@ -137,70 +138,68 @@ public class LogRecord {
 	}
 
 	private void parseHistoryLogRecord(Iterator iterator) {
-		long recordType = iterator.nextSignedLEInteger();
-		int flags = iterator.nextUnsignedLEShort();
+		HistoryLogRecord.Type type = HistoryLogRecord.Type.valueOf(iterator.nextSignedLEInteger());
+		EnumSet<HistoryLogRecord.Flag> flags = HistoryLogRecord.Flag.valueOf(iterator.nextUnsignedLEShort());
 
 		iterator.skipBytes(2);
 
-		HistoryLogRecord.Type type = HistoryLogRecord.Type.valueOf(recordType);
-
 		switch (type) {
 		case END_MARKER:
-			consumer = v -> v.visit(new EndMarkerLogRecordDetails());
+			consumer = v -> v.visit(new EndMarkerLogRecordDetails(flags));
 			return;
 		case DEACTIVATE:
-			consumer = v -> v.visit(new DeactivateLogRecordDetails());
+			consumer = v -> v.visit(new DeactivateLogRecordDetails(flags));
 			return;
 		case TIME_CHANGE:
-			consumer = v -> v.visit(new TimeChangeLogRecordDetails(iterator));
+			consumer = v -> v.visit(new TimeChangeLogRecordDetails(flags, iterator));
 			return;
 		case BOLUS:
-			consumer = v -> v.visit(new BolusLogRecordDetails(iterator));
+			consumer = v -> v.visit(new BolusLogRecordDetails(flags, iterator));
 			return;
 		case BASAL_RATE:
-			consumer = v -> v.visit(new BasalLogRecordDetails(iterator));
+			consumer = v -> v.visit(new BasalLogRecordDetails(flags, iterator));
 			return;
 		case SUSPEND:
-			consumer = v -> v.visit(new SuspendLogRecordDetails());
+			consumer = v -> v.visit(new SuspendLogRecordDetails(flags));
 			return;
 		case DATE_CHANGE:
-			consumer = v -> v.visit(new DateChangeLogRecordDetails(iterator));
+			consumer = v -> v.visit(new DateChangeLogRecordDetails(flags, iterator));
 			return;
 		case SUGGESTED_CALC:
-			consumer = v -> v.visit(new SuggestedCalcLogRecordDetails(iterator));
+			consumer = v -> v.visit(new SuggestedCalcLogRecordDetails(flags, iterator));
 			return;
 		case REMOTE_HAZARD_ALARM:
-			consumer = v -> v.visit(new RemoteHazardAlarmLogRecordDetails(iterator));
+			consumer = v -> v.visit(new RemoteHazardAlarmLogRecordDetails(flags, iterator));
 			return;
 		case ALARM:
-			consumer = v -> v.visit(new AlarmLogRecordDetails(iterator));
+			consumer = v -> v.visit(new AlarmLogRecordDetails(flags, iterator));
 			return;
 		case BLOOD_GLUCOSE:
-			consumer = v -> v.visit(new BloodGlucoseLogRecordDetails(iterator));
+			consumer = v -> v.visit(new BloodGlucoseLogRecordDetails(flags, iterator));
 			return;
 		case CARB:
-			consumer = v -> v.visit(new CarbLogRecordDetails(iterator));
+			consumer = v -> v.visit(new CarbLogRecordDetails(flags, iterator));
 			return;
 		case TERMINATE_BOLUS:
-			consumer = v -> v.visit(new TerminateBolusLogRecordDetails(iterator));
+			consumer = v -> v.visit(new TerminateBolusLogRecordDetails(flags, iterator));
 			return;
 		case TERMINATE_BASAL:
-			consumer = v -> v.visit(new TerminateBasalLogRecordDetails(iterator));
+			consumer = v -> v.visit(new TerminateBasalLogRecordDetails(flags, iterator));
 			return;
 		case ACTIVATE:
-			consumer = v -> v.visit(new ActivateLogRecordDetails(iterator));
+			consumer = v -> v.visit(new ActivateLogRecordDetails(flags, iterator));
 			return;
 		case RESUME:
-			consumer = v -> v.visit(new ResumeLogRecordDetails());
+			consumer = v -> v.visit(new ResumeLogRecordDetails(flags));
 			return;
 		case DOWNLOAD:
-			consumer = v -> v.visit(new DownloadLogRecordDetails());
+			consumer = v -> v.visit(new DownloadLogRecordDetails(flags));
 			return;
 		case OCCLUSION:
-			consumer = v -> v.visit(new OcclusionLogRecordDetails());
+			consumer = v -> v.visit(new OcclusionLogRecordDetails(flags));
 			return;
 		default:
-			consumer = v -> v.visit(new UnknownLogRecordDetails());
+			consumer = v -> v.visit(new UnknownLogRecordDetails(flags));
 			return;
 		}
 	}

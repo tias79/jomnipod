@@ -23,9 +23,17 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
+import com.github.jomnipod.HistoryLogRecord;
+
 import lombok.ToString;
 
 @ToString
-public class DownloadLogRecordDetails implements LogRecordDetails {
+public class DownloadLogRecordDetails extends HistoryLogRecord {
+
+	public DownloadLogRecordDetails(EnumSet<Flag> flags) {
+		super(flags);
+	}
 
 }

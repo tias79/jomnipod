@@ -30,10 +30,6 @@ public class BloodGlucoseUnits {
 
 	private Integer unitsMgPerDl;
 
-	public enum Type {
-		MMOL_PER_L, MG_PER_DL
-	}
-
 	public BloodGlucoseUnits(Integer units) {
 		this.unitsMgPerDl = units;
 	}

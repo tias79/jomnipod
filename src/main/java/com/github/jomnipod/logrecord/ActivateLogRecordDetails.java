@@ -23,6 +23,9 @@
  */
 package com.github.jomnipod.logrecord;
 
+import java.util.EnumSet;
+
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 import com.github.jomnipod.IBFVersion;
 import com.github.jomnipod.Version;
@@ -30,9 +33,11 @@ import com.github.jomnipod.Version;
 import lombok.ToString;
 
 @ToString
-public class ActivateLogRecordDetails implements LogRecordDetails {
+public class ActivateLogRecordDetails extends HistoryLogRecord {
 
-	public ActivateLogRecordDetails(Iterator iterator) {
+	public ActivateLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		int lotNumber = iterator.nextUnsignedLEShort();
 		int serialNumber = iterator.nextUnsignedLEShort();
 		Version podVersion = new IBFVersion(iterator);

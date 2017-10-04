@@ -24,19 +24,23 @@
 package com.github.jomnipod.logrecord;
 
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 
 import com.github.jomnipod.DateTime;
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFDateTime;
 import com.github.jomnipod.IBFRecord.Iterator;
 
 import lombok.ToString;
 
 @ToString
-public class AlarmLogRecordDetails implements LogRecordDetails {
+public class AlarmLogRecordDetails extends HistoryLogRecord {
 
 	private DateTime dateTimeStamp;
 
-	public AlarmLogRecordDetails(Iterator iterator) {
+	public AlarmLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
+
 		dateTimeStamp = new IBFDateTime(iterator);
 		int alarmType = iterator.nextUnsignedLEShort();
 		int fileNumber = iterator.nextUnsignedLEShort();

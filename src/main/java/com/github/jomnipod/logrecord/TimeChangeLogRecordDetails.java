@@ -24,7 +24,9 @@
 package com.github.jomnipod.logrecord;
 
 import java.time.LocalTime;
+import java.util.EnumSet;
 
+import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
 import com.github.jomnipod.IBFTime;
 import com.github.jomnipod.Time;
@@ -32,11 +34,12 @@ import com.github.jomnipod.Time;
 import lombok.ToString;
 
 @ToString
-public class TimeChangeLogRecordDetails implements LogRecordDetails {
+public class TimeChangeLogRecordDetails extends HistoryLogRecord {
 
 	private Time timestamp;
 
-	public TimeChangeLogRecordDetails(Iterator iterator) {
+	public TimeChangeLogRecordDetails(EnumSet<Flag> flags, Iterator iterator) {
+		super(flags);
 		timestamp = new IBFTime(iterator);
 	}
 

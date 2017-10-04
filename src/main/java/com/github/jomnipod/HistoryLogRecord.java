@@ -25,7 +25,9 @@ package com.github.jomnipod;
 
 import java.util.EnumSet;
 
-public class HistoryLogRecord {
+import com.github.jomnipod.logrecord.LogRecordDetails;
+
+public abstract class HistoryLogRecord implements LogRecordDetails {
 
 	public enum Type {
 		END_MARKER(0x0000), DEACTIVATE(0x0001), TIME_CHANGE(0x0002), BOLUS(0x0004), BASAL_RATE(0x0008), SUSPEND(
@@ -77,23 +79,14 @@ public class HistoryLogRecord {
 		}
 	}
 
-	private Type type;
+	private EnumSet<Flag> flags;
 
-	private Flag flag;
-
-	public Type getType() {
-		return type;
+	public HistoryLogRecord(EnumSet<Flag> flags) {
+		this.flags = flags;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public EnumSet<Flag> flags() {
+		return EnumSet.copyOf(flags);
 	}
 
-	public Flag getFlag() {
-		return flag;
-	}
-
-	public void setFlag(Flag flag) {
-		this.flag = flag;
-	}
 }

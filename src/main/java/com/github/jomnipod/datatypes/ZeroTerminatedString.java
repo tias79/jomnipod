@@ -30,28 +30,22 @@ import java.nio.charset.Charset;
 
 public class ZeroTerminatedString implements DataType<String> {
 
-	private byte[] buffer;
+	private String value;
 
 	public ZeroTerminatedString(ByteBuffer byteBuffer, int maxLength) {
-		buffer = new byte[maxLength];
-		byteBuffer.get(buffer);
-	}
-
-	public ZeroTerminatedString(InputStream stream, int maxLength) throws IOException {
-		buffer = new byte[maxLength];
-		stream.read(buffer);
+		byte[] buffer = new byte[maxLength+1];
+		int pos = 0;
+		byte got = byteBuffer.get();
+		while (pos < maxLength && byteBuffer.remaining() != 0 && got != 0) {
+			buffer[pos++] = got;
+			got = byteBuffer.get();
+		}
+		buffer[pos] = 0;
+		this.value = new String(buffer, 0, pos, Charset.forName("ISO-8859-1"));
 	}
 
 	@Override
 	public String value() {
-		int length = buffer.length;
-		for (int i = 0; i < buffer.length; i++) {
-			if (buffer[i] == 0) {
-				length = i;
-				break;
-			}
-		}
-
-		return new String(buffer, 0, length, Charset.forName("ISO-8859-1"));
+		return value;
 	}
 }

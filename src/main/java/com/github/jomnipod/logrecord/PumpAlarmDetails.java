@@ -131,8 +131,13 @@ public class PumpAlarmDetails implements LogRecordDetails {
 		long lotNumber = iterator.nextUnsignedLEInteger();
 		long seqNumber = iterator.nextUnsignedLEInteger();
 
-		Version processorVersion = new IBFVersion(iterator);
-		Version interlockVersion = new IBFVersion(iterator);
+		Version processorVersion = new Version(iterator.nextByte().intValue(),
+				iterator.nextByte().intValue(),
+				iterator.nextByte().intValue());
+
+		Version interlockVersion = new Version(iterator.nextByte().intValue(),
+				iterator.nextByte().intValue(),
+				iterator.nextByte().intValue());
 	}
 
 	public LocalDateTime timestamp() {

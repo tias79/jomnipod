@@ -28,7 +28,7 @@ import com.github.jomnipod.IBFRecord.Iterator;
 public class IBFVersion extends Version {
 
 	public IBFVersion(Iterator iterator) {
-		super(iterator.nextByte().intValue(), iterator.nextByte().intValue(), iterator.nextByte().intValue());
+		super(iterator.nextUnsignedBEShort(), iterator.nextUnsignedBEShort(), iterator.nextUnsignedBEShort());
 	}
 
 }

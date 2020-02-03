@@ -27,7 +27,6 @@ import java.util.EnumSet;
 
 import com.github.jomnipod.HistoryLogRecord;
 import com.github.jomnipod.IBFRecord.Iterator;
-import com.github.jomnipod.IBFVersion;
 import com.github.jomnipod.Version;
 
 import lombok.ToString;
@@ -40,8 +39,12 @@ public class ActivateLogRecordDetails extends HistoryLogRecord {
 
 		int lotNumber = iterator.nextUnsignedLEShort();
 		int serialNumber = iterator.nextUnsignedLEShort();
-		Version podVersion = new IBFVersion(iterator);
-		Version interlockVersion = new IBFVersion(iterator);
+		Version podVersion = new Version(iterator.nextByte().intValue(),
+				iterator.nextByte().intValue(),
+				iterator.nextByte().intValue());
+		Version interlockVersion = new Version(iterator.nextByte().intValue(),
+				iterator.nextByte().intValue(),
+				iterator.nextByte().intValue());
 	}
 
 }

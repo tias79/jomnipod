@@ -34,12 +34,21 @@ public class IBF {
 
 	private IBFVersions versions;
 
+	private PDMVersion pdmVersion;
+
+	private boolean isDash;
+
 	private List<LogRecord> logRecords;
 
 	public IBF(InputStream inputStream) throws IOException {
 		versions = new IBFVersions(new IBFRecord(inputStream));
-
-		inputStream.read(new byte[46], 0, 46);
+		IBFRecord pdmVersionRecord = new IBFRecord(inputStream);
+		pdmVersion = new PDMVersion(pdmVersionRecord.iterator());
+		Version dashVersion = new Version(3,0,0);
+		if (pdmVersion.compareTo(dashVersion) >= 0) {
+			isDash = true;
+		}
+		IBFRecord manufacturingData = new IBFRecord(inputStream);
 
 		BasalPrograms basalPrograms = new BasalPrograms(new IBFRecord(inputStream));
 
@@ -68,11 +77,19 @@ public class IBF {
 		logRecords = tmpLogRecords;
 	}
 
-	public Version version() {
-		return versions.ibfVersion();
+	public IBFVersions ibfVersions() {
+		return versions;
+	}
+
+	public PDMVersion pdmVersion(){
+		return pdmVersion;
 	}
 
 	public List<LogRecord> logRecords() {
 		return new ArrayList<>(logRecords);
+	}
+
+	public boolean isDash() {
+		return isDash;
 	}
 }
